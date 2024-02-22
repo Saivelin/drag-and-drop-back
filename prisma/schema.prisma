@@ -19,4 +19,18 @@ model User {
   role      UserRole @relation(fields: [roleId], references: [id])
   password  String
   roleId    Int
+  tasks     Task[] @relation("creator")
+  tasks_in_development  Task[] @relation("executor")
+}
+
+model Task {
+    id           Int  @id @default(autoincrement())
+    title        String
+    description  String
+    creatorId    Int
+    creator      User @relation("creator", fields: [creatorId], references: [id])
+    executors    User[] @relation("executor")
+    deadline     String
+    priority     Int  @default(autoincrement())
+    status       String @default("created")
 }
